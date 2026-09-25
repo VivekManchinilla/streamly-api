@@ -1,46 +1,41 @@
-// channel.controller.js — COMPLETE. This is your REFERENCE for the handler pattern.
-// Every handler: async/await + try/catch -> ONE Mongoose op -> send response.
-// On any throw it calls next(err) — it never formats the error itself.
-// Build video.controller.js by copying this rhythm.
+import { Video } from "../models/video.model.js";
 
-import { Channel } from "../models/channel.model.js";
-
-export async function createChannel(req, res, next) {
+export async function createVideo(req, res, next) {
   try {
-    const channel = await Channel.create(req.body);
-    res.status(201).json(channel);
+    const video = await Video.create(req.body);
+    res.status(201).json(video);
   } catch (err) {
     next(err);
   }
 }
 
-export async function getChannel(req, res, next) {
+export async function getVideo(req, res, next) {
   try {
-    const channel = await Channel.findById(req.params.id);
-    if (!channel) return res.status(404).json({ error: "Channel not found" });
-    res.json(channel);
+    const video = await Video.findById(req.params.id);
+    if (!video) return res.status(404).json({ error: "Video not found" });
+    res.json(video);
   } catch (err) {
     next(err);
   }
 }
 
-export async function updateChannel(req, res, next) {
+export async function updateVideo(req, res, next) {
   try {
-    const channel = await Channel.findByIdAndUpdate(req.params.id, req.body, {
+    const video = await Video.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
-    if (!channel) return res.status(404).json({ error: "Channel not found" });
-    res.json(channel);
+    if (!video) return res.status(404).json({ error: "Video not found" });
+    res.json(video);
   } catch (err) {
     next(err);
   }
 }
 
-export async function deleteChannel(req, res, next) {
+export async function deleteVideo(req, res, next) {
   try {
-    const channel = await Channel.findByIdAndDelete(req.params.id);
-    if (!channel) return res.status(404).json({ error: "Channel not found" });
+    const video = await Video.findByIdAndDelete(req.params.id);
+    if (!video) return res.status(404).json({ error: "Video not found" });
     res.status(204).send();
   } catch (err) {
     next(err);
